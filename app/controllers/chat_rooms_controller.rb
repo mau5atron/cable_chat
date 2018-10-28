@@ -1,6 +1,6 @@
 class ChatRoomsController < ApplicationController
 	def index
-		@chat_rooms = ChatRoom.all(:order => 'created_at DESC')
+		@chat_rooms = ChatRoom.all
 	end
 
 	def new
@@ -12,6 +12,7 @@ class ChatRoomsController < ApplicationController
 
 		if @chat_room.save
 			flash[:success] = 'You have created a new chat room 🙂'
+			redirect_to chat_rooms_path
 		else
 			render 'new'
 		end
@@ -19,6 +20,7 @@ class ChatRoomsController < ApplicationController
 
 	def show
 		@chat_room = ChatRoom.includes(:messages).find_by(id: params[:id])
+		@message = Message.new
 	end
 
 	private 
